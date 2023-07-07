@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+Use \App\Models\Horario;
+Use \App\Http\Requests\StoreHorarioRequest;
+Use \App\Http\Requests\EditHorarioRequest;
 
 class HorarioController extends Controller
 {
@@ -13,7 +16,9 @@ class HorarioController extends Controller
      */
     public function index()
     {
-        //
+        $dados = Horario::all();
+        $horarios = "Horarios";
+        return view('horarios.index', compact(['dados', 'horarios']));
     }
 
     /**
@@ -23,7 +28,7 @@ class HorarioController extends Controller
      */
     public function create()
     {
-        //
+        return view('horarios.create');
     }
 
     /**
@@ -34,7 +39,11 @@ class HorarioController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Horario::create([
+            'hora' =>  $request->hora,
+            'vagas' =>  $request->vagas
+        ]);
+        return redirect()->route('horario.index');
     }
 
     /**
@@ -45,7 +54,8 @@ class HorarioController extends Controller
      */
     public function show($id)
     {
-        //
+        $dados = Horario::find($id);  
+        return view('horarios.show', compact('dados')); 
     }
 
     /**
@@ -56,7 +66,9 @@ class HorarioController extends Controller
      */
     public function edit($id)
     {
-        //
+        $dados = Horario::find($id);    
+        if(!isset($dados)) { return "<h1>ID: $id não encontrado!</h1>"; }
+        return view('horarios.edit', compact('dados')); 
     }
 
     /**
@@ -68,7 +80,16 @@ class HorarioController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $obj = Horario::find($id);
+
+        if(!isset($obj)) { return "<h1>ID: $id não encontrado!"; }
+        $obj->fill([
+            'hora' =>  $request->hora,
+            'vagas' =>  $request->vagas,
+        ]);
+
+        $obj->save();
+        return redirect()->route('horarios.index');
     }
 
     /**
@@ -79,6 +100,9 @@ class HorarioController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $obj = Horario::find($id);
+        if(!isset($obj)) { return "<h1>ID: $id não encontrado!"; }
+        Horario::destroy($id);
+        return redirect()->route('horarios.index');
     }
 }

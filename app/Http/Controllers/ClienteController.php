@@ -1,9 +1,15 @@
 <?php
 
 namespace App\Http\Controllers;
-
+Use \App\Models\Cliente;
+Use \App\Http\Requests\StoreClienteRequest;
+Use \App\Http\Requests\EditClienteRequest;
+use PHPUnite\Framework\TestCase;
 use Illuminate\Http\Request;
 
+class ClienteTest extends TestCase{
+
+}
 class ClienteController extends Controller
 {
     /**
@@ -13,9 +19,9 @@ class ClienteController extends Controller
      */
     public function index()
     {
-        $dados = Professor::all();
-        $professores = "Professores";
-        return view('professores.index', compact(['dados', 'professores']));
+        $dados = Cliente::all();
+        $clientes = "clientes";
+        return view('clientes.index', compact(['dados', 'clientes']));
     }
 
     /**
@@ -25,7 +31,7 @@ class ClienteController extends Controller
      */
     public function create()
     {
-        //
+        return view('clientes.create');
     }
 
     /**
@@ -34,9 +40,13 @@ class ClienteController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreClienteRequest $request)
     {
-        //
+        Cliente::create([
+            'nome' =>  $request->nome,
+            'email' =>  $request->email
+        ]);
+        return redirect()->route('clientes.index');
     }
 
     /**
@@ -47,7 +57,8 @@ class ClienteController extends Controller
      */
     public function show($id)
     {
-        //
+        $dados = Cliente::find($id);  
+        return view('clientes.show', compact('dados')); 
     }
 
     /**
@@ -58,7 +69,9 @@ class ClienteController extends Controller
      */
     public function edit($id)
     {
-        //
+        $dados = Cliente::find($id);    
+        if(!isset($dados)) { return "<h1>ID: $id não encontrado!</h1>"; }
+        return view('clientes.edit', compact('dados')); 
     }
 
     /**
@@ -68,9 +81,18 @@ class ClienteController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(EditClienteRequest $request, $id)
     {
-        //
+        $obj = Cliente::find($id);
+
+        if(!isset($obj)) { return "<h1>ID: $id não encontrado!"; }
+        $obj->fill([
+            'nome' =>  $request->nome,
+            'email' =>  $request->email
+        ]);
+
+        $obj->save();
+        return redirect()->route('clientes.index');
     }
 
     /**
@@ -81,6 +103,9 @@ class ClienteController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $obj = Cliente::find($id);
+        if(!isset($obj)) { return "<h1>ID: $id não encontrado!"; }
+        find::destroy($id);
+        return redirect()->route('clientes.index');
     }
 }

@@ -8,33 +8,31 @@
         @csrf
         <div class="row">
             <div class="col" >
-
                 <div class="form-floating mb-3">
-                    <input  type="text"  class="form-control @error('nome') is-invalid @enderror" 
-                        name="nome" 
-                        placeholder="Nome"
-                        value="{{old('nome')}}"
+                    <input  type="number"  class="form-control @error('horario') is-invalid @enderror" 
+                        name="horario" 
+                        placeholder="horario"
+                        value="{{old('horario')}}"
                     />
-                    @error('nome')
+                    @error('horario')
                     <div class="invalid-feedback">
                             {{$message}}
                     </div>
                     @enderror
-                    <label for="nome">Nome do Cliente</label>
+                    <label for="horario">Horario disponivel</label>
                 </div>
-
                 <div class="form-floating mb-3">
-                    <input  type="text"  class="form-control @error('email') is-invalid @enderror" 
-                        name="email" 
-                        placeholder="Email"
-                        value="{{old('email')}}"
+                    <input  type="number"  class="form-control @error('vagas') is-invalid @enderror" 
+                        name="vagas" 
+                        placeholder="vagas"
+                        value="{{old('vagas')}}"
                     />
-                    @error('email')
+                    @error('vagas')
                     <div class="invalid-feedback">
                             {{$message}}
                     </div>
                     @enderror
-                    <label for="email">Email do Cliente</label>
+                    <label for="vagas">Vagas disponivel</label>
                 </div>
             </div>
         </div>
