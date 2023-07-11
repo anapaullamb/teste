@@ -1,11 +1,11 @@
 <!-- Herda o layout padrão definido no template "main" -->
-@extends('templates.main', ['titulo' => "Alterar Professor"])
+@extends('templates.main', ['titulo' => "Alterar Jogador"])
 <!-- Preenche o conteúdo da seção "titulo" -->
-@section('titulo') Clientes @endsection
+@section('titulo') Jogadores @endsection
 <!-- Preenche o conteúdo da seção "conteudo" -->
 @section('conteudo')
 
-<form action="{{ route('clientes.update', $dados['id']) }}" method="POST">
+<form action="{{ route('jogadores.update', $dados['id']) }}" method="POST">
     @csrf
     @method('PUT')
     <div class="row">
@@ -21,7 +21,7 @@
                         {{$message}}
                 </div>
                 @enderror
-                <label for="nome">Nome do Cliente</label>
+                <label for="nome">Nome do Jogador</label>
             </div>
 
             <div class="form-floating mb-3">
@@ -35,13 +35,27 @@
                         {{$message}}
                 </div>
                 @enderror
-                <label for="email">Email do Cliente</label>
+                <label for="email">Email do Jogador</label>
+            </div>
+
+            <div class="form-floating mb-3">
+                <input  type="number"  class="form-control @error('pontuacao') is-invalid @enderror" 
+                    name="pontuacao" 
+                    placeholder="Pontuacao"
+                    value="{{$dados['pontuacao']}}"
+                />
+                @error('pontuacao')
+                <div class="invalid-feedback">
+                        {{$message}}
+                </div>
+                @enderror
+                <label for="pontuacao">Pontuacao do Jogador</label>
             </div>
         </div>
     </div>
     <div class="row">
         <div class="col">
-            <a href="{{route('clientes.index')}}" class="btn btn-secondary btn-block align-content-center">
+            <a href="{{route('jogadores.index')}}" class="btn btn-secondary btn-block align-content-center">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-arrow-left-square-fill" viewBox="0 0 16 16">
                     <path d="M16 14a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12zm-4.5-6.5H5.707l2.147-2.146a.5.5 0 1 0-.708-.708l-3 3a.5.5 0 0 0 0 .708l3 3a.5.5 0 0 0 .708-.708L5.707 8.5H11.5a.5.5 0 0 0 0-1z"/>
                 </svg>

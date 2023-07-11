@@ -1,7 +1,7 @@
 <!-- Herda o layout padrão definido no template "main" -->
-@extends('templates.main', ['titulo' => "Horarios", 'rota' => "horarios.create"])
+@extends('templates.main', ['titulo' => "Categorias", 'rota' => "categorias.index"])
 <!-- Preenche o conteúdo da seção "titulo" -->
-@section('horario') horarios @endsection
+@section('categorias') categorias @endsection
 <!-- Preenche o conteúdo da seção "conteudo" -->
 @section('conteudo')
 
@@ -10,12 +10,12 @@
             
             <!-- Utiliza o componente "datalist" criado -->
             <x-datatable 
-                title="Horarios" 
-                crud="horarios" 
-                :header="['id', 'horario','vagas']" 
+                title="Categorias" 
+                crud="categorias" 
+                :header="['id', 'nome']" 
                 :data="$dados"
-                :hide="[true, false, false]" 
-                :button="['show' => false,'delete' => true, 'vinculo' => true]" 
+                :hide="[true, false, false,false]" 
+                :button="['show' => true,'delete' => false,'vinculo' => false,'update' => false]" 
             />
 
         </div>

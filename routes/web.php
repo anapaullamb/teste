@@ -13,6 +13,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::resource('jogadores', 'JogadorController');
+Route::resource('categorias', 'CategoriaController');
+Route::resource('categoriasFavoritas', 'CategoriaFavoritaController');
 Route::get('/', function () {
-    return view('welcome');
-});
+    return view('index');
+})->name('index');

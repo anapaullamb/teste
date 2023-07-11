@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+Use \App\Models\Categoria;
 
-class ClientesHorariosController extends Controller
+class CategoriaController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,7 +14,9 @@ class ClientesHorariosController extends Controller
      */
     public function index()
     {
-        //
+        $dados = Categoria::all();
+        $categorias = "categorias";
+        return view('categorias.index', compact(['dados', 'categorias']));
     }
 
     /**
@@ -23,7 +26,6 @@ class ClientesHorariosController extends Controller
      */
     public function create()
     {
-        //
     }
 
     /**
@@ -32,9 +34,8 @@ class ClientesHorariosController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreJogadorRequest $request)
     {
-        //
     }
 
     /**
@@ -45,7 +46,8 @@ class ClientesHorariosController extends Controller
      */
     public function show($id)
     {
-        //
+        $dados = Categoria::find($id);  
+        return view('categorias.show', compact('dados')); 
     }
 
     /**
@@ -56,7 +58,6 @@ class ClientesHorariosController extends Controller
      */
     public function edit($id)
     {
-        //
     }
 
     /**
@@ -66,9 +67,8 @@ class ClientesHorariosController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(EditJogadorRequest $request, $id)
     {
-        //
     }
 
     /**
@@ -79,6 +79,5 @@ class ClientesHorariosController extends Controller
      */
     public function destroy($id)
     {
-        //
     }
 }

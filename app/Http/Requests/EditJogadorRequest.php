@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreClienteRequest extends FormRequest
+class EditJogadorRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,15 +25,15 @@ class StoreClienteRequest extends FormRequest
     {
         return [
             'nome' => 'required|min:10|max:100',
-            'email' => 'required|min:15|max:250|unique:clientes'
+            'pontuacao' => 'required',
+            'email' => 'required|min:15|max:250'
         ];
     }
     public function messages(){
         return [
             "required" => "O preenchimento do campo [:attribute] é obrigatório!",
             "max" => "O campo [:attribute] possui tamanho máximo de [:max] caracteres!",
-            "min" => "O campo [:attribute] possui tamanho mínimo de [:min] caracteres!",
-            "unique" => "Esse [:attribute] já está em uso!"
+            "min" => "O campo [:attribute] possui tamanho mínimo de [:min] caracteres!"
         ];
     }
 }

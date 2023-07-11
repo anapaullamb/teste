@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
+Use \App\Models\CategoriasFavorita;
+Use \App\Models\Categoria;
+Use \App\Models\Jogador;
 use Illuminate\Http\Request;
-Use \App\Models\Horario;
-Use \App\Http\Requests\StoreHorarioRequest;
-Use \App\Http\Requests\EditHorarioRequest;
 
-class HorarioController extends Controller
+class CategoriaFavoritaController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,9 +16,9 @@ class HorarioController extends Controller
      */
     public function index()
     {
-        $dados = Horario::all();
-        $horarios = "Horarios";
-        return view('horarios.index', compact(['dados', 'horarios']));
+        $dados = CategoriasFavorita::where('jogador', 1)->get();
+        $categoriasFavoritas = "categoriasFavoritas";
+        return view('categoriasFavoritas.show', compact(['dados', 'categoriasFavoritas']));
     }
 
     /**
@@ -26,9 +26,11 @@ class HorarioController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($id)
     {
-        return view('horarios.create');
+        $dados = CategoriasFavorita::where('jogador', $id)->get();
+        $categorias = Categoria::whereNotIn('id', $dados->pluck('categoria'))->get();
+        return view('categoriasFavoritas.create', compact(['categorias', 'id']));
     }
 
     /**
@@ -39,11 +41,11 @@ class HorarioController extends Controller
      */
     public function store(Request $request)
     {
-        Horario::create([
-            'hora' =>  $request->hora,
-            'vagas' =>  $request->vagas
+        CategoriasFavorita::create([
+            'jogador' =>  $request->id,
+            'categoria' =>  $request->categoria,
         ]);
-        return redirect()->route('horario.index');
+        return redirect()->route('categoriasFavoritas.show',$request->id);
     }
 
     /**
@@ -54,8 +56,9 @@ class HorarioController extends Controller
      */
     public function show($id)
     {
-        $dados = Horario::find($id);  
-        return view('horarios.show', compact('dados')); 
+        $dados = CategoriasFavorita::where('jogador', $id)->get();
+        $categoriasFavoritas = "categoriasFavoritas";
+        return view('categoriasFavoritas.show', compact(['dados', 'categoriasFavoritas']));
     }
 
     /**
@@ -66,9 +69,7 @@ class HorarioController extends Controller
      */
     public function edit($id)
     {
-        $dados = Horario::find($id);    
-        if(!isset($dados)) { return "<h1>ID: $id não encontrado!</h1>"; }
-        return view('horarios.edit', compact('dados')); 
+        //
     }
 
     /**
@@ -80,16 +81,7 @@ class HorarioController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $obj = Horario::find($id);
-
-        if(!isset($obj)) { return "<h1>ID: $id não encontrado!"; }
-        $obj->fill([
-            'hora' =>  $request->hora,
-            'vagas' =>  $request->vagas,
-        ]);
-
-        $obj->save();
-        return redirect()->route('horarios.index');
+        //
     }
 
     /**
@@ -100,9 +92,6 @@ class HorarioController extends Controller
      */
     public function destroy($id)
     {
-        $obj = Horario::find($id);
-        if(!isset($obj)) { return "<h1>ID: $id não encontrado!"; }
-        Horario::destroy($id);
-        return redirect()->route('horarios.index');
+        //
     }
 }

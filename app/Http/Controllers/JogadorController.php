@@ -1,16 +1,14 @@
 <?php
 
 namespace App\Http\Controllers;
-Use \App\Models\Cliente;
-Use \App\Http\Requests\StoreClienteRequest;
-Use \App\Http\Requests\EditClienteRequest;
+
+Use \App\Models\Jogador;
+Use \App\Http\Requests\StoreJogadorRequest;
+Use \App\Http\Requests\EditJogadorRequest;
 use PHPUnite\Framework\TestCase;
 use Illuminate\Http\Request;
 
-class ClienteTest extends TestCase{
-
-}
-class ClienteController extends Controller
+class JogadorController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,9 +17,9 @@ class ClienteController extends Controller
      */
     public function index()
     {
-        $dados = Cliente::all();
-        $clientes = "clientes";
-        return view('clientes.index', compact(['dados', 'clientes']));
+        $dados = Jogador::all();
+        $jogadores = "jogadores";
+        return view('jogadores.index', compact(['dados', 'jogadores']));
     }
 
     /**
@@ -31,7 +29,7 @@ class ClienteController extends Controller
      */
     public function create()
     {
-        return view('clientes.create');
+        return view('jogadores.create');
     }
 
     /**
@@ -40,13 +38,14 @@ class ClienteController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreClienteRequest $request)
+    public function store(StoreJogadorRequest $request)
     {
-        Cliente::create([
+        Jogador::create([
             'nome' =>  $request->nome,
-            'email' =>  $request->email
+            'email' =>  $request->email,
+            'pontuacao' => 0,
         ]);
-        return redirect()->route('clientes.index');
+        return redirect()->route('jogadores.index');
     }
 
     /**
@@ -57,8 +56,8 @@ class ClienteController extends Controller
      */
     public function show($id)
     {
-        $dados = Cliente::find($id);  
-        return view('clientes.show', compact('dados')); 
+        $dados = Jogador::find($id);  
+        return view('jogadores.show', compact('dados')); 
     }
 
     /**
@@ -69,9 +68,9 @@ class ClienteController extends Controller
      */
     public function edit($id)
     {
-        $dados = Cliente::find($id);    
+        $dados = Jogador::find($id);    
         if(!isset($dados)) { return "<h1>ID: $id não encontrado!</h1>"; }
-        return view('clientes.edit', compact('dados')); 
+        return view('jogadores.edit', compact('dados')); 
     }
 
     /**
@@ -81,18 +80,19 @@ class ClienteController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(EditClienteRequest $request, $id)
+    public function update(EditJogadorRequest $request, $id)
     {
-        $obj = Cliente::find($id);
+        $obj = Jogador::find($id);
 
         if(!isset($obj)) { return "<h1>ID: $id não encontrado!"; }
         $obj->fill([
             'nome' =>  $request->nome,
-            'email' =>  $request->email
+            'email' =>  $request->email,
+            'pontuacao' =>  $request->pontuacao
         ]);
 
         $obj->save();
-        return redirect()->route('clientes.index');
+        return redirect()->route('jogadores.index');
     }
 
     /**
@@ -103,9 +103,9 @@ class ClienteController extends Controller
      */
     public function destroy($id)
     {
-        $obj = Cliente::find($id);
+        $obj = Jogador::find($id);
         if(!isset($obj)) { return "<h1>ID: $id não encontrado!"; }
         find::destroy($id);
-        return redirect()->route('clientes.index');
+        return redirect()->route('jogadores.index');
     }
 }
